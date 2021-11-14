@@ -3,6 +3,7 @@ import click
 import logging
 import urllib
 from pathlib import Path
+import tensorflow_datasets as tfds
 from dotenv import find_dotenv, load_dotenv
 
 
@@ -11,8 +12,14 @@ def store_image(url, local_file_name):
         with open(local_file_name, 'wb') as f: 
             f.write(resource.read())
 
-def load_dataset_from_drive(url): 
-    pass 
+def get_wider_face_dataset(info=False): 
+    # returns a tf dataset object
+    if info == True: 
+        ds, info = tfds.load('wider_faces', split=['train', 'test'], shuffle_files=True, with_info=True)
+        return ds, info
+    ds = tfds.load('wider_faces', split=['train', 'test'], shuffle_files=True)
+    return ds
+    
 
 
 
